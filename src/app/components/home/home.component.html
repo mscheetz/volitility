@@ -1,0 +1,47 @@
+<div *ngIf="settingUp">
+    Getting Volitility ready!
+</div>
+<div *ngIf="!settingUp">
+    <mat-table [dataSource]="tickers">
+            <!-- Pair -->
+            <ng-container cdkColumnDef="symbol">
+              <mat-header-cell *cdkHeaderCellDef> Pair </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.symbol}} </mat-cell>
+            </ng-container>
+            <!-- Open -->
+            <ng-container cdkColumnDef="openPrice">
+              <mat-header-cell *cdkHeaderCellDef> Open </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.openPrice}} </mat-cell>
+            </ng-container>
+            <!-- Close -->
+            <ng-container cdkColumnDef="closePrice">
+              <mat-header-cell *cdkHeaderCellDef> Close </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.closePrice}} </mat-cell>
+            </ng-container>
+            <!-- 24hr Diff -->
+            <ng-container cdkColumnDef="priceChangePercent">
+              <mat-header-cell *cdkHeaderCellDef> 24hr Diff </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.priceChangePercent}} </mat-cell>
+            </ng-container>
+            <!-- High -->
+            <ng-container cdkColumnDef="high">
+              <mat-header-cell *cdkHeaderCellDef> High </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.high}} </mat-cell>
+            </ng-container>
+            <!-- Low -->
+            <ng-container cdkColumnDef="low">
+              <mat-header-cell *cdkHeaderCellDef> Low </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.low}} </mat-cell>
+            </ng-container>
+            <!-- H/L Diff -->
+            <ng-container cdkColumnDef="hlVolitility">
+              <mat-header-cell *cdkHeaderCellDef> H/L Diff </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.hlVolitility}} </mat-cell>
+            </ng-container>
+            <!-- Volume -->
+            <ng-container cdkColumnDef="volume">
+              <mat-header-cell *cdkHeaderCellDef> Volume </mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.volume}} </mat-cell>
+            </ng-container>
+    </mat-table>
+</div>
