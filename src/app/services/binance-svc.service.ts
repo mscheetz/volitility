@@ -4,26 +4,22 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Ticker } from '../classes/Binance/Ticker';
 import { Kline } from '../classes/Binance/Kline';
 import { ExchangeInfo } from '../classes/Binance/ExchangeInfo';
+import { environment } from '../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class BinanceService {
     constructor(private http: HttpClient) {}
 
-    base: string = "https://api.binance.com";
+    proxy: string = environment.proxy;
+    base: string = this.proxy + "https://api.binance.com";
     httpOptions = {
         headers: new HttpHeaders({
+            'X-Requested-With': 'XMLHttpRequest',
             "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token, content-type"
         })
     };
-    // httpOptions = {
-    // headers: new HttpHeaders().
-    // set('Content-Type', 'application/json').
-    // set('Accept', 'application/json').
-    // set('Access-Control-Allow-Headers', 'Content-Type').
-    // set('Access-Control-Allow-Origin', '*')
-    // };
 
     getExchangeInfo(): Observable<ExchangeInfo> {
         let endpoint: string = "/api/v1/exchangeInfo";
@@ -41,7 +37,7 @@ export class BinanceService {
 
     getKline(pair: string, interval: string): Observable<Kline[]> {
         let endpoint: string = "/api/v1/klines";
-        let qs: string = "?symbol="+ pair +"&interval="+interval;
+        let qs: string = "?symbol="+ pair +"&interval="+interval +"&limit=20";
         let url: string = this.base + endpoint + qs;
 
         return this.http.get<Kline[]>(url, this.httpOptions);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { BinanceService } from 'src/app/services/binance-svc.service';
 import { SymbolInfo } from 'src/app/classes/Binance/SymbolInfo';
 import { Ticker } from 'src/app/classes/Binance/Ticker';
@@ -15,9 +15,11 @@ export class HomeComponent implements OnInit {
 
     symbols: SymbolInfo[] = [];
     tickers: Ticker[] = [];
-    klines: Kline[] = [];
+    @Output() klines: Map<string, Kline[]> = new Map<string, Kline[]>();
+    @Output() selectedPair: string = "";
     intervals: string[] = ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1M"];
     settingUp: boolean = true;
+    @Output() showDetail: boolean = false;
 
     ngOnInit(){
         this.getSymbolInfo();
@@ -47,10 +49,21 @@ export class HomeComponent implements OnInit {
     }
 
     getKlines(pair: string, interval: string) {
-        this.klines = [];
         this.binanceSvc.getKline(pair, interval)
             .subscribe(response => {
-                this.klines = response;
+                this.klines.set(interval, response);
+                this.showDetail = this.klines.size === 3 ? true : false;
             });
+    }
+
+    onRowSelect(selection: any) {
+        this.showDetail = false;
+        let ticker: Ticker = selection.data;
+        this.selectedPair = ticker.symbol;
+        this.klines = new Map<string, Kline[]>();
+        this.getKlines(ticker.symbol, "4h");
+        this.getKlines(ticker.symbol, "1h");
+        this.getKlines(ticker.symbol, "30m");
+        console.log(selection);
     }
 }

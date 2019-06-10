@@ -1,0 +1,41 @@
+<!-- <div *ngIf="settingUp">
+    Getting Volitility ready!
+</div>
+<div *ngIf="!settingUp">
+    <table mat-table [dataSource]="tickers">
+      <ng-container cdkColumnDef="symbol">
+        <th mat-header-cell *cdkHeaderCellDef> Pair </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.symbol}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="openPrice">
+        <th mat-header-cell *cdkHeaderCellDef> Open </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.openPrice}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="closePrice">
+        <th mat-header-cell *cdkHeaderCellDef> Close </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.closePrice}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="priceChangePercent">
+        <th mat-header-cell *cdkHeaderCellDef> 24hr Diff </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.priceChangePercent}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="high">
+        <th mat-header-cell *cdkHeaderCellDef> High </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.high}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="low">
+        <th mat-header-cell *cdkHeaderCellDef> Low </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.low}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="hlVolitility">
+        <th mat-header-cell *cdkHeaderCellDef> H/L Diff </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.hlVolitility}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="volume">
+        <th mat-header-cell *cdkHeaderCellDef> Volume </th>
+        <td mat-cell *cdkCellDef="let row"> {{row.volume}} </td>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="tickers"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: tickers;"></mat-row>
+    </table>
+</div> -->
