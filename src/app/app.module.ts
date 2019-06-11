@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DialogModule } from 'primeng/dialog';
     AppRoutingModule,
     HttpClientModule,
     TableModule,
-    DialogModule
+    DialogModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

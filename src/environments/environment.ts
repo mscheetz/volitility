@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  proxy: "https://cors-anywhere.herokuapp.com/"
+  proxy: "http://localhost:8000"
 };
 
 /*

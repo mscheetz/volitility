@@ -2,8 +2,10 @@
     Getting Volitility ready!
 </div>
 <div *ngIf="!settingUp">
-  <kline-detail [display]="showDetail" [klines]="klines" [pair]="selectedPair"></kline-detail>  
-  <p-table [value]="tickers" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+  <span>Currency: </span><p-dropdown [options]="tokens"></p-dropdown>
+  <span>Market: </span><p-dropdown [options]="markets"></p-dropdown>
+  <!-- <kline-detail [display]="showDetail" [klines]="klines" [pair]="selectedPair"></kline-detail>   -->
+  <p-table [value]="tableRows" selectionMode="single" (onRowSelect)="onRowSelect($event)">
     <ng-template pTemplate="header">
       <tr>
         <th>Pair</th>

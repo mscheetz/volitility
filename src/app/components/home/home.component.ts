@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
 
     symbols: SymbolInfo[] = [];
     tickers: Ticker[] = [];
+    tableRows: Ticker[] = [];
+    tokens: string[] = [];
+    markets: string[] = [];
     @Output() klines: Map<string, Kline[]> = new Map<string, Kline[]>();
     @Output() selectedPair: string = "";
     intervals: string[] = ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1M"];
@@ -27,9 +30,11 @@ export class HomeComponent implements OnInit {
     }
 
     getSymbolInfo() {
-        this.binanceSvc.getExchangeInfo()
+        this.binanceSvc.getSymbols()
             .subscribe(result => {
-                this.symbols = result.symbols;
+                this.symbols = result;
+                this.tokens = [...new Set(result.map(i => i.baseAsset))];
+                this.markets = [...new Set(result.map(i => i.quoteAsset))];
                 this.appReady();
             })
     }
@@ -38,6 +43,7 @@ export class HomeComponent implements OnInit {
         this.binanceSvc.getTickers()
             .subscribe(result => {
                 this.tickers = result;
+                this.tableRows = this.tickers;
                 this.appReady();
             })
     }
