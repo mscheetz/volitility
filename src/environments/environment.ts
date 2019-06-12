@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  proxy: "http://localhost:8000"
+  baseUrl: "http://localhost:8000",
+  user: "volitility-d",
+  token: "b59e052f-891d-45be-b316-0c22b561bb11"
 };
 
 /*

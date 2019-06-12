@@ -6,39 +6,53 @@ import { Kline } from '../classes/Binance/Kline';
 import { ExchangeInfo } from '../classes/Binance/ExchangeInfo';
 import { environment } from '../../environments/environment';
 import { SymbolInfo } from '../classes/Binance/SymbolInfo';
+import { HelperService } from './helper.service';
 
 @Injectable({providedIn: 'root'})
 export class BinanceService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+                private helperSvc: HelperService) {}
 
-    proxy: string = environment.proxy;
-    base: string = this.proxy;
+    base: string = environment.baseUrl;
+    user: string = environment.user;
 
     getExchangeInfo(): Observable<ExchangeInfo> {
-        let endpoint: string = "/api/info";
+        let endpoint: string = "/api/binance/info";
         let url: string = this.base + endpoint;
 
-        return this.http.get<ExchangeInfo>(url);
+        return this.get<ExchangeInfo>(url);
     }
     
     getSymbols(): Observable<SymbolInfo[]> {
-        let endpoint: string = "/api/symbols";
+        let endpoint: string = "/api/binance/symbols";
         let url: string = this.base + endpoint;
 
-        return this.http.get<SymbolInfo[]>(url);
+        return this.get<SymbolInfo[]>(url);
     }
 
     getTickers(): Observable<Ticker[]> {
-        let endpoint: string = "/api/tickers";
+        let endpoint: string = "/api/binance/tickers";
         let url: string = this.base + endpoint;
 
-        return this.http.get<Ticker[]>(url);
+        return this.get<Ticker[]>(url);
     }
 
     getKline(pair: string, interval: string): Observable<Kline[]> {
-        let endpoint: string = "/api/klines/"+ pair +"/"+ interval;
+        let endpoint: string = "/api/binance/klines/"+ pair +"/"+ interval;
         let url: string = this.base + endpoint;
 
-        return this.http.get<Kline[]>(url);
+        return this.get<Kline[]>(url);
+    }
+    
+    get<T>(url: string): Observable<T> {
+        let headers = {
+            'NODIE-USER': this.user,
+            'NODIE-SIGNATURE': this.helperSvc.requestSignature()
+        }
+        let requestOptions = {
+            headers: new HttpHeaders(headers),
+        }
+
+        return this.http.get<T>(url, requestOptions);
     }
 }
