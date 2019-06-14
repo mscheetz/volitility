@@ -2,6 +2,7 @@
     Getting Volitility ready!
 </div>
 <div *ngIf="!settingUp">
+  <span>Exchange: </span><p-dropdown [options]="exchanges"></p-dropdown>
   <span>Currency: </span><p-dropdown [options]="tokens"></p-dropdown>
   <span>Market: </span><p-dropdown [options]="markets"></p-dropdown>
   <!-- <kline-detail [display]="showDetail" [klines]="klines" [pair]="selectedPair"></kline-detail>   -->
@@ -20,13 +21,13 @@
     </ng-template>
     <ng-template pTemplate="body" let-ticker>
       <tr [pSelectableRow]="ticker">
-        <td>{{ticker.symbol}}</td>
-        <td>{{ticker.openPrice | number}}</td>
-        <td>{{ticker.lastPrice | number}}</td>
-        <td>{{ticker.priceChangePercent | number}}%</td>
-        <td>{{ticker.highPrice | number}}</td>
-        <td>{{ticker.lowPrice | number}}</td>
-        <td>{{(1 - (ticker.lowPrice/ticker.highPrice)) | number}}%</td>
+        <td>{{ticker.pair}}</td>
+        <td>{{ticker.open | number}}</td>
+        <td>{{ticker.close | number}}</td>
+        <td>{{ticker.percent24h | number}}%</td>
+        <td>{{ticker.high | number}}</td>
+        <td>{{ticker.low | number}}</td>
+        <td>{{(1 - (ticker.low/ticker.high)) | number}}%</td>
         <td>{{ticker.volume | number}}</td>
       </tr>
     </ng-template>

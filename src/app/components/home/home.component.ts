@@ -1,8 +1,8 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { BinanceService } from 'src/app/services/binance-svc.service';
-import { SymbolInfo } from 'src/app/classes/Binance/SymbolInfo';
-import { Ticker } from 'src/app/classes/Binance/Ticker';
-import { Kline } from 'src/app/classes/Binance/Kline';
+import { NodieService } from 'src/app/services/nodie-svc.service';
+import { PairInfo } from 'src/app/classes/Nodie/PairInfo';
+import { Ticker } from 'src/app/classes/Nodie/Ticker';
+import { Kline } from 'src/app/classes/Nodie/Kline';
 
 @Component({
     selector: 'home',
@@ -11,9 +11,11 @@ import { Kline } from 'src/app/classes/Binance/Kline';
 })
 
 export class HomeComponent implements OnInit {
-    constructor(private binanceSvc: BinanceService) {}
+    constructor(private nodieSvc: NodieService) {}
 
-    symbols: SymbolInfo[] = [];
+    exchanges: string[] = ["Binance"];
+    selectedExchange: string = "";
+    symbols: PairInfo[] = [];
     tickers: Ticker[] = [];
     tableRows: Ticker[] = [];
     tokens: string[] = [];
@@ -25,22 +27,23 @@ export class HomeComponent implements OnInit {
     @Output() showDetail: boolean = false;
 
     ngOnInit(){
+        this.selectedExchange = this.exchanges[0];
         this.getSymbolInfo();
         this.getTickers();
     }
 
     getSymbolInfo() {
-        this.binanceSvc.getSymbols()
+        this.nodieSvc.getSymbols(this.selectedExchange)
             .subscribe(result => {
                 this.symbols = result;
-                this.tokens = [...new Set(result.map(i => i.baseAsset))];
-                this.markets = [...new Set(result.map(i => i.quoteAsset))];
+                this.tokens = [...new Set(result.map(i => i.asset))];
+                this.markets = [...new Set(result.map(i => i.market))];
                 this.appReady();
             })
     }
 
     getTickers() {
-        this.binanceSvc.getTickers()
+        this.nodieSvc.getTickers(this.selectedExchange)
             .subscribe(result => {
                 this.tickers = result;
                 this.tableRows = this.tickers;
@@ -55,7 +58,7 @@ export class HomeComponent implements OnInit {
     }
 
     getKlines(pair: string, interval: string) {
-        this.binanceSvc.getKline(pair, interval)
+        this.nodieSvc.getKline(this.selectedExchange, pair, interval)
             .subscribe(response => {
                 this.klines.set(interval, response);
                 this.showDetail = this.klines.size === 3 ? true : false;
@@ -65,11 +68,11 @@ export class HomeComponent implements OnInit {
     onRowSelect(selection: any) {
         this.showDetail = false;
         let ticker: Ticker = selection.data;
-        this.selectedPair = ticker.symbol;
+        this.selectedPair = ticker.pair;
         this.klines = new Map<string, Kline[]>();
-        this.getKlines(ticker.symbol, "4h");
-        this.getKlines(ticker.symbol, "1h");
-        this.getKlines(ticker.symbol, "30m");
+        this.getKlines(ticker.pair, "4h");
+        this.getKlines(ticker.pair, "1h");
+        this.getKlines(ticker.pair, "30m");
         console.log(selection);
     }
 }
